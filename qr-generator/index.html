@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QR Code Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+    <h1>QR Code Generator</h1>
+    <p>Enter any text or link:</p>
+
+    <input
+      type="text"
+      id="qr-input"
+      placeholder="https://example.com or any text"
+      autocomplete="off"
+    />
+
+    <div class="actions">
+      <button id="generate-btn">Generate</button>
+      <button id="download-btn" disabled>Download PNG</button>
+      <button id="clear-btn" class="ghost">Clear</button>
+    </div>
+
+    <!-- Collapsible QR preview -->
+    <div id="imgBox">
+      <img id="qr-img" alt="QR code preview" />
+    </div>
+
+    <small class="hint">Tip: Press Enter to generate.</small>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
