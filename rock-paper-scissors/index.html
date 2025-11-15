@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rock Paper Scissors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1 { margin-bottom: 20px; }
+    .choices {
+      display: flex;
+      gap: 20px;
+      margin: 20px 0;
+    }
+    button {
+      font-size: 24px;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #1e293b;
+    }
+    .result {
+      font-size: 20px;
+      margin: 15px 0;
+      min-height: 24px;
+    }
+    .scoreboard {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    .scoreboard div {
+      background: #1e293b;
+      padding: 10px 20px;
+      border-radius: 8px;
+    }
+    .choices-display {
+      font-size: 50px;
+      margin: 15px 0;
+    }
+    .reset-btn {
+      background: #ef4444;
+      color: #fff;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>✊ Rock Paper Scissors ✋✌️</h1>
+
+  <div class="choices">
+    <button onclick="play('rock')">🪨 Rock</button>
+    <button onclick="play('paper')">📄 Paper</button>
+    <button onclick="play('scissors')">✂️ Scissors</button>
+  </div>
+
+  <div class="choices-display">
+    <span id="userChoice">❔</span> vs <span id="computerChoice">❔</span>
+  </div>
+
+  <div id="result" class="result"></div>
+
+  <div class="scoreboard">
+    <div>Wins: <span id="wins">0</span></div>
+    <div>Losses: <span id="losses">0</span></div>
+    <div>Draws: <span id="draws">0</span></div>
+  </div>
+
+  <button class="reset-btn" onclick="resetScore()">Reset Score</button>
+
+  <script>
+    // Retrieve saved score from localStorage or initialize
+    let score = JSON.parse(localStorage.getItem("rpsScore")) || {
+      wins: 0,
+      losses: 0,
+      draws: 0
+    };
+
+    updateScoreUI();
+
+    const emoji = {
+      rock: "🪨",
+      paper: "📄",
+      scissors: "✂️",
+      question: "❔"
+    };
+
+    function play(userChoice) {
+      const choices = ["rock", "paper", "scissors"];
+      const computer = choices[Math.floor(Math.random() * 3)];
+
+      document.getElementById("userChoice").textContent = emoji[userChoice];
+      document.getElementById("computerChoice").textContent = emoji[computer];
+
+      let result = "";
+
+      if (userChoice === computer) {
+        result = "It's a Draw!";
+        score.draws++;
+      } else if (
+        (userChoice === "rock" && computer === "scissors") ||
+        (userChoice === "paper" && computer === "rock") ||
+        (userChoice === "scissors" && computer === "paper")
+      ) {
+        result = "You Win! 🎉";
+        score.wins++;
+      } else {
+        result = "You Lose! 😢";
+        score.losses++;
+      }
+
+      document.getElementById("result").textContent = result;
+      localStorage.setItem("rpsScore", JSON.stringify(score));
+      updateScoreUI();
+    }
+
+    function updateScoreUI() {
+      document.getElementById("wins").textContent = score.wins;
+      document.getElementById("losses").textContent = score.losses;
+      document.getElementById("draws").textContent = score.draws;
+    }
+
+    function resetScore() {
+      score = { wins: 0, losses: 0, draws: 0 };
+      localStorage.removeItem("rpsScore");
+      updateScoreUI();
+      document.getElementById("userChoice").textContent = emoji.question;
+      document.getElementById("computerChoice").textContent = emoji.question;
+      document.getElementById("result").textContent = "";
+    }
+  </script>
+</body>
+</html>
